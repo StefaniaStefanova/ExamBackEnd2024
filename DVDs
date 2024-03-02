@@ -1,0 +1,52 @@
+function DVD(input) {
+    const numberOfdvd = parseInt(input[0], 10);
+
+    const alldvd = input.slice(1, numberOfdvd + 1)
+    const allCommands = input.slice(numberOfdvd + 1)
+
+    for (let index = 0; index < allCommands.length; index += 1) {
+        const rawParams = allCommands[index].split(' ');
+        const commandName = rawParams[0];
+
+
+
+        if (commandName === 'Watch') {
+            const solddvd = alldvd.shift();
+            console.log(`${solddvd} DVD watched!`);
+        } else if (commandName === 'Buy') {
+            const dvdtoadd = allCommands[index].slice(4);
+
+            if (!dvdtoadd) {
+                continue;
+            }
+
+            alldvd.push(dvdtoadd);
+        } else if (commandName === 'Swap') {
+            const firstIndex = parseInt(rawParams[1], 10);
+            const secondIndex = parseInt(rawParams[2], 10);
+
+            if (isNaN(firstIndex) || firstIndex < 0 || firstIndex >= alldvd.length) {
+                continue;
+            }
+
+            if (isNaN(secondIndex) || secondIndex < 0 || secondIndex >= alldvd.length) {
+                continue;
+            }
+
+            const dvdOnFirstIndex = alldvd[firstIndex];
+            alldvd[firstIndex] = alldvd[secondIndex];
+            alldvd[secondIndex] = dvdOnFirstIndex;
+
+            console.log("Swapped!");
+        } else if (commandName === "Done") {
+            break;
+        }
+    }
+
+    if (alldvd.length) {
+        console.log(`DVDs left: ${alldvd.join(', ')}`)
+    } else {
+        console.log("The collection is empty");
+    }
+}
+DVD(['3', 'The Matrix', 'The Godfather', 'The Shawshank Redemption', 'Watch', 'Done', 'Swap 0 1'])
